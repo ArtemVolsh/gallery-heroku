@@ -2,12 +2,11 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const Router = require("./Routes/router");
-const cors = require("./Middlewares/cors.js");
+const cors = require("./middlewares/cors");
 const Port = process.env.PORT;
 const ConnectionString = process.env.DB_CONSTRING;
 const cookieParser = require("cookie-parser");
 const path = require("path");
-
 const app = express();
 
 app.use(express.json());
