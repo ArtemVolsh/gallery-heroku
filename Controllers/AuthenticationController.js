@@ -12,8 +12,6 @@ class authenticationController {
         phoneNumber
       );
 
-      // localStorage.setItem("refreshToken", userData.refreshToken); autoDelete function needed
-
       res.cookie("refreshToken", userData.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
@@ -42,9 +40,6 @@ class authenticationController {
         sameSite: "Lax",
         secure: true,
       });
-
-      console.log(res.cookies);
-      console.log(res.cookies);
 
       return res.json(userData);
     } catch (error) {

@@ -3,18 +3,20 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../Reducers/userReducer";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import logo from "../static/header-logo.png";
 
 const Header = () => {
   const dispatch = useDispatch();
 
   const userEmail = useSelector((state) => state.user.currentUser.email);
   const isAuth = useSelector((state) => state.user.isAuth);
-  const isAdmin = useSelector((state) => state.user.currentUser.role == 1);
+  const isAdmin = useSelector((state) => state.user.role === 1);
 
   return (
     <header className="header-wrapper">
       <div className="logo">
         <h3>Gallery</h3>
+        <img width={40} src={logo} alt="Love ukraine" />
       </div>
       <div className="navigation inline-flex">
         <nav className="inline-flex">
@@ -27,19 +29,42 @@ const Header = () => {
 
           {isAuth ? (
             <div className="inline-flex">
-              <AccountCircleIcon />
-              <Typography
-                sx={{
-                  display: "inline-block",
-                  padding: "0 10px 0 5px",
-                  "&:hover": {
-                    textDecoration: "underline",
-                  },
-                }}
-                variant="body1"
-              >
-                {userEmail}
-              </Typography>
+              {isAdmin ? (
+                <>
+                  <AccountCircleIcon />
+                  <Typography
+                    sx={{
+                      display: "inline-block",
+                      padding: "0 10px 0 5px",
+                      "&:hover": {
+                        textDecoration: "underline",
+                      },
+                    }}
+                    variant="body1"
+                  >
+                    <Link style={{ color: "white" }} to="/reqposts">
+                      {userEmail}
+                    </Link>
+                  </Typography>
+                </>
+              ) : (
+                <>
+                  <AccountCircleIcon />
+                  <Typography
+                    sx={{
+                      display: "inline-block",
+                      padding: "0 10px 0 5px",
+                      "&:hover": {
+                        textDecoration: "underline",
+                      },
+                    }}
+                    variant="body1"
+                  >
+                    {userEmail}
+                  </Typography>
+                </>
+              )}
+
               <Button
                 variant="contained"
                 sx={{

@@ -3,9 +3,13 @@ import { Container, Grid, Paper } from "@mui/material";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+
+import { queryTypes } from "./AdminPages/RequestedPosts";
 
 const ExhibitionsPage = () => {
+  const poke = useSelector((state) => state.poke.poke);
+
   const [filter, setFilter] = useState("");
   const [exhibitions, setExhibitions] = useState([]);
 
@@ -29,7 +33,7 @@ const ExhibitionsPage = () => {
 
     const fetchData = async () => {
       try {
-        let query;
+        let query = queryTypes.approved;
 
         if (params && !filter) query = params;
         else query = filter;
@@ -53,7 +57,18 @@ const ExhibitionsPage = () => {
     fetchData();
 
     return () => cancel();
-  }, [filter, params]);
+  }, [filter, params, poke]);
+
+  const renderApprovalStatus = (status) => {
+    switch (status) {
+      case 0:
+        return "Pending";
+      case 1:
+        return "Accepted";
+      case 2:
+        return "Rejected";
+    }
+  };
 
   return (
     <>
@@ -72,9 +87,17 @@ const ExhibitionsPage = () => {
             {exhibitions.map((exhs) => (
               <Grid key={`grid-${exhs._id}`} item lg={3} md={4} xs={2}>
                 <Paper className="post-card">
-                  <div className="post-card__image-wrapper">
-                    <img className="post-card__image" src={exhs.image} alt="" />
-                  </div>
+                  <span
+                    className={
+                      "post-card__status post-card__status-color-" +
+                      exhs.approvalStatus
+                    }
+                  >
+                    {renderApprovalStatus(exhs.approvalStatus)}
+                  </span>
+                  <Link to={exhs._id}>
+                    <img className="post-card__image" src={exhs.image} />
+                  </Link>
                   <div style={{ padding: "10px" }}>
                     <h2 style={{ paddingBottom: "10px" }}>{exhs.name}</h2>
                     <span className="post-card__subheading">Theme</span>

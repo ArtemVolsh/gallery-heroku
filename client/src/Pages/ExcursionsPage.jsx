@@ -2,14 +2,19 @@ import { useEffect, useState } from "react";
 import { Container, Grid, Paper } from "@mui/material";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+
+import { queryTypes } from "./AdminPages/RequestedPosts";
 
 const ExcursionsPage = () => {
+  const poke = useSelector((state) => state.poke.poke);
+
   const [filter, setFilter] = useState("");
   const [excursions, setExcursions] = useState([]);
 
   const location = useLocation();
   const params = location.search ? location.search : null;
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -28,7 +33,7 @@ const ExcursionsPage = () => {
 
     const fetchData = async () => {
       try {
-        let query;
+        let query = queryTypes.approved;
 
         if (params && !filter) query = params;
         else query = filter;
@@ -52,7 +57,18 @@ const ExcursionsPage = () => {
     fetchData();
 
     return () => cancel();
-  }, [filter, params]);
+  }, [filter, params, poke]);
+
+  const renderApprovalStatus = (status) => {
+    switch (status) {
+      case 0:
+        return "Pending";
+      case 1:
+        return "Accepted";
+      case 2:
+        return "Rejected";
+    }
+  };
 
   return (
     <>
@@ -70,9 +86,19 @@ const ExcursionsPage = () => {
           <Grid container spacing={2}>
             {excursions?.map((excs) => (
               <Grid key={`grid-${excs._id}`} item lg={3} md={4} xs={2}>
-                <Paper className="post-card">
+                <Paper sx={{ borderRadius: "10px" }} className="post-card">
+                  <span
+                    className={
+                      "post-card__status post-card__status-color-" +
+                      excs.approvalStatus
+                    }
+                  >
+                    {renderApprovalStatus(excs.approvalStatus)}
+                  </span>
                   <div className="post-card__image-wrapper">
-                    <img className="post-card__image" src={excs.image} alt="" />
+                    <Link to={excs._id}>
+                      <img className="post-card__image" src={excs.image} />
+                    </Link>
                   </div>
                   <div style={{ padding: "10px" }}>
                     <h2 style={{ paddingBottom: "10px" }}>{excs.name}</h2>

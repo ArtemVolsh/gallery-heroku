@@ -3,15 +3,15 @@ import { useEffect, useState } from "react";
 import { Grid, Paper, Container, Typography, Stack } from "@mui/material";
 import { useLocation, useParams } from "react-router-dom";
 
-export const ExhibitionItemPage = () => {
-  const defaultExhibition = {};
+export const ExcursionsItemPage = () => {
+  const defaultExcursion = {};
 
   const location = useLocation();
   const params = useParams();
 
   console.log(location.pathname);
 
-  const [exhibition, setExhibition] = useState(defaultExhibition);
+  const [excursion, setExcursion] = useState(defaultExcursion);
 
   const timeLocalOptions = {
     weekday: "short",
@@ -28,14 +28,14 @@ export const ExhibitionItemPage = () => {
       let query;
       axios({
         method: "POST",
-        url: `https://gallery-heroku.herokuapp.com/api/exhibitions/${params}`,
+        url: `https://gallery-heroku.herokuapp.com/api/excursions/${params}`,
         withCredentials: true,
         data: {
           id: params,
         },
       })
         .then(({ data }) => {
-          setExhibition(data.data);
+          setExcursion(data.data);
         })
         .catch((e) => console.log(e));
     };
@@ -71,13 +71,13 @@ export const ExhibitionItemPage = () => {
               <span
                 className={
                   "post-card__status post-card__status-color-" +
-                  exhibition.approvalStatus
+                  excursion.approvalStatus
                 }
               >
-                {renderApprovalStatus(exhibition.approvalStatus)}
+                {renderApprovalStatus(excursion.approvalStatus)}
               </span>
               <div className="post-card__image-wrapper">
-                <img className="post-card__image" src={exhibition.image} />
+                <img className="post-card__image" src={excursion.image} />
               </div>
               <Typography
                 fullWidth
@@ -86,31 +86,29 @@ export const ExhibitionItemPage = () => {
                 variant="h2"
                 className="post-item__heading"
               >
-                {exhibition.name}
+                {excursion.name}
               </Typography>
               <Stack spacing={2}>
                 <Stack direction="row" spacing={2} alignSelf="center">
                   <Stack direction="row" flexWrap="true">
-                    <Stack direction="row">
-                      <Typography
-                        fullWidth
-                        fontWeight="bold"
-                        alignSelf="center"
-                        variant="h5"
-                        className="post-item__attribute attribute-place"
-                      >
-                        Place
-                      </Typography>
-                      <Typography
-                        fullWidth
-                        fontWeight="bold"
-                        alignSelf="center"
-                        variant="h5"
-                        className="post-item__attribute attribute-place-value"
-                      >
-                        {exhibition.place}
-                      </Typography>
-                    </Stack>
+                    <Typography
+                      fullWidth
+                      fontWeight="bold"
+                      alignSelf="center"
+                      variant="h5"
+                      className="post-item__attribute attribute-author"
+                    >
+                      Author
+                    </Typography>
+                    <Typography
+                      fullWidth
+                      fontWeight="bold"
+                      alignSelf="center"
+                      variant="h5"
+                      className="post-item__attribute attribute-author-value"
+                    >
+                      {excursion.offeredBy}
+                    </Typography>
                   </Stack>
                   <Stack direction="row">
                     <Typography
@@ -129,9 +127,7 @@ export const ExhibitionItemPage = () => {
                       variant="h5"
                       className="post-item__attribute attribute-price-value"
                     >
-                      {exhibition.price === 0
-                        ? "Free"
-                        : "₴ " + exhibition.price}
+                      ₴ {excursion.price}
                     </Typography>
                   </Stack>
                 </Stack>
@@ -144,7 +140,7 @@ export const ExhibitionItemPage = () => {
                       variant="h5"
                       className="post-item__attribute attribute-date"
                     >
-                      Start Date
+                      Date
                     </Typography>
                     <Typography
                       fullWidth
@@ -153,33 +149,30 @@ export const ExhibitionItemPage = () => {
                       variant="h5"
                       className="post-item__attribute attribute-date-value"
                     >
-                      {new Date(exhibition.date).toLocaleString(
+                      {new Date(excursion.date).toLocaleString(
                         "uk-UK",
                         timeLocalOptions
                       )}
                     </Typography>
                   </Stack>
-                  <Stack direction="row" flexWrap="true">
+                  <Stack direction="row">
                     <Typography
                       fullWidth
                       fontWeight="bold"
                       alignSelf="center"
                       variant="h5"
-                      className="post-item__attribute attribute-author"
+                      className="post-item__attribute attribute-place"
                     >
-                      End Date
+                      Place
                     </Typography>
                     <Typography
                       fullWidth
                       fontWeight="bold"
                       alignSelf="center"
                       variant="h5"
-                      className="post-item__attribute attribute-author-value"
+                      className="post-item__attribute attribute-place-value"
                     >
-                      {new Date(exhibition.endDate).toLocaleString(
-                        "uk-UK",
-                        timeLocalOptions
-                      )}
+                      {excursion.place}
                     </Typography>
                   </Stack>
                 </Stack>
@@ -190,7 +183,7 @@ export const ExhibitionItemPage = () => {
                 variant="body1"
                 fontSize="20px"
               >
-                {exhibition.content}
+                {excursion.content}
               </Typography>
             </Stack>
           </Paper>

@@ -12,6 +12,26 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #00224d;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #00377a;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #004aa0;
+}
+
 #root {
   height: 100%;
 }
@@ -53,6 +73,9 @@ body {
 
 .logo {
   color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .header-wrapper {
@@ -120,8 +143,10 @@ body {
 }
 
 .post-card {
-  border-radius: 10px;
-  max-height: 400px;
+  display: flex;
+  flex-direction: column;
+
+  height: 400px;
   overflow: hidden;
 }
 
@@ -130,6 +155,14 @@ body {
   width: 100%;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+}
+
+.post-card__data-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  height: 100%;
 }
 
 .post-card__image {
@@ -145,8 +178,183 @@ body {
   font-weight: 500;
 }
 
+.post-card__content-wrapper {
+  position: relative;
+  overflow: hidden;
+  flex: 1 0 auto;
+}
+
+.post-card__controls {
+  align-items: center;
+  justify-content: center;
+
+  align-self: flex-end;
+}
+.post-card__status {
+  position: absolute;
+
+  font-weight: bold;
+}
+
+.post-card__status-color-1 {
+  margin: 10px;
+  padding: 5px;
+
+  color: white;
+  background: rgb(0, 157, 0);
+  border-radius: 5px;
+}
+.post-card__status-color-0 {
+  margin: 10px;
+  padding: 5px;
+
+  color: white;
+  background: gray;
+  border-radius: 5px;
+}
+.post-card__status-color-2 {
+  margin: 10px;
+  padding: 5px;
+
+  color: white;
+  background: tomato;
+  border-radius: 5px;
+}
+
+.post-item {
+}
+
+.post-item__heading {
+  padding: 20px;
+}
+
+.post-item__attribute {
+  color: white;
+
+  padding: 5px;
+
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  background: rgb(0, 31, 166);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 31, 166, 1) 0%,
+    rgba(108, 131, 221, 1) 40%,
+    rgba(198, 208, 255, 1) 100%
+  );
+}
+
+.post-item__attribute:nth-child(2n) {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.attribute-author-value {
+  background: rgba(0, 31, 166, 1);
+}
+
+.attribute-price {
+  background: rgb(0, 157, 44);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 157, 44, 1) 0%,
+    rgba(59, 199, 91, 1) 40%,
+    rgba(198, 255, 209, 1) 100%
+  );
+}
+.attribute-price-value {
+  background: rgb(0, 157, 44);
+}
+.attribute-place {
+  background: linear-gradient(
+    0deg,
+    rgba(157, 92, 0, 1) 0%,
+    rgba(199, 132, 59, 1) 40%,
+    rgba(255, 225, 198, 1) 100%
+  );
+}
+.attribute-place-value {
+  background: rgb(157, 92, 0);
+}
+.attribute-date {
+  background: linear-gradient(
+    0deg,
+    rgba(157, 0, 0, 1) 0%,
+    rgba(199, 59, 59, 1) 40%,
+    rgba(255, 198, 198, 1) 100%
+  );
+}
+
+.attribute-date-value {
+  background: rgb(157, 0, 0);
+}
+
 .link-button {
   display: inline-block;
   width: 100%;
   height: 100%;
+}
+
+.requested-heading {
+  border-radius: 10px;
+  padding: 20px;
+
+  color: white;
+  background: rgb(1, 0, 68);
+  background: linear-gradient(
+    90deg,
+    rgba(1, 0, 68, 1) 0%,
+    rgba(1, 58, 179, 1) 40%,
+    rgba(54, 194, 240, 1) 100%
+  );
+}
+
+.approved-heading {
+  border-radius: 10px;
+  padding: 20px;
+
+  color: white;
+  background: rgb(18, 68, 0);
+  background: linear-gradient(
+    90deg,
+    rgba(18, 68, 0, 1) 0%,
+    rgba(4, 179, 1, 1) 40%,
+    rgba(54, 240, 135, 1) 100%
+  );
+}
+
+.rejected-heading {
+  border-radius: 10px;
+  padding: 20px;
+
+  color: white;
+  background: rgb(68, 0, 5);
+  background: linear-gradient(
+    90deg,
+    rgba(68, 0, 5, 1) 0%,
+    rgba(179, 1, 1, 1) 40%,
+    rgba(207, 54, 240, 1) 100%
+  );
+}
+
+.grid-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.grid-item {
+  flex-basis: calc(25% - 7.5px);
+}
+
+.text-overflow {
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  white-space: normal;
 }

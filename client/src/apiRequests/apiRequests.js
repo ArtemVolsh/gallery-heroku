@@ -133,6 +133,92 @@ export const createExcursion = async (excursion) => {
   }
 };
 
+export const updateApprovalNews = async (id, status) => {
+  try {
+    axios
+      .patch(
+        "https://gallery-heroku.herokuapp.com/api/requestedPosts/news",
+        {
+          id,
+          status,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log("News approved!");
+        return response;
+      })
+      .catch((e) => {
+        console.log("Error occurred. Post wasn't created");
+        console.log(e);
+      });
+  } catch (e) {
+    log(JSON.stringify(e));
+    log(e?.response?.data);
+  }
+};
+export const updateApprovalExcursions = async (id, status) => {
+  try {
+    axios
+      .patch(
+        "https://gallery-heroku.herokuapp.com/api/requestedPosts/excursions",
+        {
+          id,
+          status,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log("Excursions approved!");
+        return response;
+      })
+      .catch((e) => {
+        console.log("Error occurred. Post wasn't created");
+        console.log(e);
+      });
+  } catch (e) {
+    log(JSON.stringify(e));
+    log(e?.response?.data);
+  }
+};
+
+export const updateApprovalExhibitions = async (id, status) => {
+  try {
+    axios
+      .patch(
+        "https://gallery-heroku.herokuapp.com/api/requestedPosts/exhibitions",
+        {
+          id,
+          status,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log("Exhibitions approved!");
+        return response;
+      })
+      .catch((e) => {
+        console.log("Error occurred. Post wasn't created");
+        console.log(e);
+      });
+  } catch (e) {
+    log(JSON.stringify(e));
+    log(e?.response?.data);
+  }
+};
+
 export const createNews = async (news) => {
   try {
     axios

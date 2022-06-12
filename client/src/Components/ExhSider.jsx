@@ -9,6 +9,10 @@ import {
   Typography,
   Checkbox,
   FormLabel,
+  Radio,
+  RadioGroup,
+  FormControl,
+  FormControlLabel,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddBoxIcon from "@mui/icons-material/AddBox";
@@ -20,6 +24,7 @@ import {
 } from "@mui/x-date-pickers";
 
 import { createExhibition } from "../apiRequests/apiRequests";
+import { pokeGlobal } from "../Reducers/pokeReducer";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -52,6 +57,7 @@ const ExhSider = () => {
     place: "",
     status: false,
     rating: 0,
+    approvalStatus: 0,
   };
 
   const [isSearch, setSearch] = useState(false);
@@ -82,19 +88,29 @@ const ExhSider = () => {
     setSearchExhibition({ ...searchExhibition, status: e.target.checked });
   };
 
+  const handleSearchApprovalStatus = (e) => {
+    setSearchExhibition({
+      ...searchExhibition,
+      approvalStatus: e.target.value,
+    });
+  };
+
   const formNavigationString = (post) => {
     let navString = "";
 
     for (let [key, value] of Object.entries(post)) {
       let firstOrConsequent = navString.includes("?") ? "&&" : "?";
 
-      let customKeys = ["price", "status"];
+      let customKeys = ["price", "status", "approvalStatus"];
 
       if (key === "price" && value !== defaultSearchExhibition[`${key}`])
         navString += `${firstOrConsequent}${key}[lte]=${value}`;
 
       if (key === "status")
         navString += `${firstOrConsequent}${key}[eq]=${value ? 1 : 0}`;
+
+      if (key === "approvalStatus")
+        navString += `${firstOrConsequent}${key}[eq]=${value}`;
 
       if (value !== defaultSearchExhibition[key] && !customKeys.includes(key))
         navString += `${firstOrConsequent}${key}[regex]=${value}`;
@@ -213,6 +229,7 @@ const ExhSider = () => {
                   variant="contained"
                   onClick={() => {
                     createExhibition(exhibition);
+                    dispatch(pokeGlobal());
                   }}
                   className="sider-flex-full"
                   sx={{
@@ -279,6 +296,33 @@ const ExhSider = () => {
                     checked={searchExhibition.status}
                     onChange={handleSearchStatus}
                   />
+                </Stack>
+
+                <Stack direction="row" className="sider-flex-full">
+                  <FormControl>
+                    <RadioGroup
+                      value={searchExhibition.approvalStatus}
+                      onChange={handleSearchApprovalStatus}
+                      row
+                      name="row-radio-buttons-group"
+                    >
+                      <FormControlLabel
+                        value={0}
+                        control={<Radio />}
+                        label="Pending"
+                      />
+                      <FormControlLabel
+                        value={1}
+                        control={<Radio />}
+                        label="Approved"
+                      />
+                      <FormControlLabel
+                        value={2}
+                        control={<Radio />}
+                        label="Rejected"
+                      />
+                    </RadioGroup>
+                  </FormControl>
                 </Stack>
 
                 <Stack direction="row" spacing={1} className="sider-flex-full">

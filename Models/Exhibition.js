@@ -1,4 +1,4 @@
- const { Schema, model } = require("mongoose");
+const { Schema, model } = require("mongoose");
 
 const Feedback = new Schema(
   {
@@ -33,6 +33,12 @@ const Exhibition = new Schema(
     content: {
       type: String,
       required: true,
+    },
+    approvalStatus: {
+      type: Number,
+      default: 0,
+      min: 0, // 0 => pending, 1 => approved, 2 => rejected, 3 => fixes needed
+      max: 3,
     },
     status: {
       type: Number,

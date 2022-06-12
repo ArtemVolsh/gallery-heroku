@@ -2,33 +2,30 @@ import { useEffect, useState } from "react";
 import {
   TextField,
   Box,
-  InputAdornment,
   Button,
   Switch,
   Stack,
   Typography,
-  Checkbox,
-  FormLabel,
+  Radio,
+  RadioGroup,
+  FormControl,
+  FormControlLabel,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import ClearIcon from "@mui/icons-material/Clear";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import {
-  LocalizationProvider,
-  DateTimePicker as DatePicker,
-} from "@mui/x-date-pickers";
 
 import { createNews } from "../apiRequests/apiRequests";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { pokeGlobal } from "../Reducers/pokeReducer";
 
 const NewsSider = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
   const userId = useSelector((state) => state.user.currentUser.id);
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const noImageLink = "https://www.jquery-az.com/html/images/banana.jpg";
 
@@ -49,6 +46,7 @@ const NewsSider = () => {
     name: "",
     content: "",
     place: "",
+    approvalStatus: 0,
   };
 
   // TODO Add fix published by
@@ -75,7 +73,7 @@ const NewsSider = () => {
     setSearchNews({ ...searchNews, [name]: value });
   };
   const handleSearchStatus = (e) => {
-    setSearchNews({ ...searchNews, status: e.target.checked });
+    setSearchNews({ ...searchNews, approvalStatus: e.target.value });
   };
 
   const formNavigationString = (post) => {
@@ -83,14 +81,18 @@ const NewsSider = () => {
 
     for (let [key, value] of Object.entries(post)) {
       let firstOrConsequent = navString.includes("?") ? "&&" : "?";
+      // let firstOrConsequent = "&&";
 
-      let customKeys = ["price", "status"];
+      let customKeys = ["price", "status", "approvalStatus"];
 
       if (key === "price" && value !== defaultSearchNews[`${key}`])
         navString += `${firstOrConsequent}${key}[lte]=${value}`;
 
       if (key === "status")
         navString += `${firstOrConsequent}${key}[eq]=${value ? 1 : 0}`;
+
+      if (key === "approvalStatus")
+        navString += `${firstOrConsequent}${key}[eq]=${value}`;
 
       if (value !== defaultSearchNews[key] && !customKeys.includes(key))
         navString += `${firstOrConsequent}${key}[regex]=${value}`;
@@ -182,7 +184,10 @@ const NewsSider = () => {
                     ":hover": { backgroundColor: "gold" },
                   }}
                   variant="contained"
-                  onClick={() => createNews(news)}
+                  onClick={() => {
+                    createNews(news);
+                    dispatch(pokeGlobal());
+                  }}
                 >
                   Add news
                 </Button>
@@ -211,6 +216,31 @@ const NewsSider = () => {
                   className="sider-flex-full"
                   sx={{ background: "white" }}
                 ></TextField>
+
+                <FormControl>
+                  <RadioGroup
+                    value={searchNews.approvalStatus}
+                    onChange={handleSearchStatus}
+                    row
+                    name="row-radio-buttons-group"
+                  >
+                    <FormControlLabel
+                      value={0}
+                      control={<Radio />}
+                      label="Pending"
+                    />
+                    <FormControlLabel
+                      value={1}
+                      control={<Radio />}
+                      label="Approved"
+                    />
+                    <FormControlLabel
+                      value={2}
+                      control={<Radio />}
+                      label="Rejected"
+                    />
+                  </RadioGroup>
+                </FormControl>
 
                 <Stack direction="row" spacing={1} className="sider-flex-full">
                   <Button

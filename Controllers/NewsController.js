@@ -17,15 +17,11 @@ class NewsController {
 
     let parsedString = JSON.parse(queryString);
 
-    console.log(parsedString);
-
     for (let [key, value] of Object.entries(parsedString)) {
       if (parsedString[key].hasOwnProperty("$regex")) {
         parsedString[key] = { ...parsedString[key], $options: "i" };
       }
     }
-
-    console.log(parsedString);
 
     const news = await News.find(parsedString);
 
@@ -42,6 +38,16 @@ class NewsController {
     res.status(201).json({
       success: true,
       data: newsItem,
+    });
+  };
+  getNewsById = async (req, res, next) => {
+    const { id } = req.body.id;
+
+    const news = await News.findById(id);
+
+    res.status(201).json({
+      success: true,
+      data: news,
     });
   };
 }

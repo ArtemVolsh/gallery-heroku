@@ -34,6 +34,13 @@ const News = new Schema(
     publishedBy: {
       type: String,
       required: true,
+      default: "62952dd370675598707858fc",
+    },
+    approvalStatus: {
+      type: Number,
+      default: 0,
+      min: 0, // 0 => pending, 1 => approved, 2 => rejected, 3 => fixes needed
+      max: 3,
     },
     image: {
       type: String,

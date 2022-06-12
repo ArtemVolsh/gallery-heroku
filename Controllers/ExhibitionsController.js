@@ -17,15 +17,11 @@ class ExhibitionsController {
 
     let parsedString = JSON.parse(queryString);
 
-    console.log(parsedString);
-
     for (let [key, value] of Object.entries(parsedString)) {
       if (parsedString[key].hasOwnProperty("$regex")) {
         parsedString[key] = { ...parsedString[key], $options: "i" };
       }
     }
-
-    console.log(parsedString);
 
     const exhs = await Exhibitions.find(parsedString);
 
@@ -38,6 +34,17 @@ class ExhibitionsController {
   createExhibition = async (req, res, next) => {
     const { exhibition } = req.body;
     const exhs = await Exhibitions.create(exhibition);
+
+    res.status(201).json({
+      success: true,
+      data: exhs,
+    });
+  };
+
+  getExhibitionById = async (req, res, next) => {
+    const { id } = req.body.id;
+
+    const exhs = await Exhibitions.findById(id);
 
     res.status(201).json({
       success: true,

@@ -4,12 +4,13 @@ import axios from "axios";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { useLocation, useNavigate } from "react-router-dom";
-
-import { getUserById } from "../apiRequests/utilities";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 
 const NewsPage = () => {
+  const poke = useSelector((state) => state.poke.poke);
+
   const [filter, setFilter] = useState("");
+
   const [news, setNews] = useState([]);
 
   const location = useLocation();
@@ -48,7 +49,18 @@ const NewsPage = () => {
     fetchData();
 
     return () => cancel();
-  }, [filter, params]);
+  }, [filter, params, poke]);
+
+  const renderApprovalStatus = (status) => {
+    switch (status) {
+      case 0:
+        return "Pending";
+      case 1:
+        return "Accepted";
+      case 2:
+        return "Rejected";
+    }
+  };
 
   return (
     <>
@@ -68,11 +80,17 @@ const NewsPage = () => {
               <Grid key={`grid-${newsItem._id}`} item lg={3} md={4} xs={2}>
                 <Paper className="post-card">
                   <div className="post-card__image-wrapper">
-                    <img
-                      className="post-card__image"
-                      src={newsItem.image}
-                      alt=""
-                    />
+                    <span
+                      className={
+                        "post-card__status post-card__status-color-" +
+                        newsItem.approvalStatus
+                      }
+                    >
+                      {renderApprovalStatus(newsItem.approvalStatus)}
+                    </span>
+                    <Link to={newsItem._id}>
+                      <img className="post-card__image" src={newsItem.image} />
+                    </Link>
                   </div>
                   <div style={{ padding: "10px" }}>
                     <h2 style={{ paddingBottom: "10px" }}>{newsItem.name}</h2>

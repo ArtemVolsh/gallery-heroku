@@ -13,10 +13,16 @@ import { NewsPage } from "./NewsPage";
 import { NotFoundPage } from "./NotFoundPage";
 import { RegisterPage } from "./AuthPages/RegisterPage";
 import { LoginPage } from "./AuthPages/LoginPage";
+import { RequestedPosts } from "./AdminPages/RequestedPosts";
+import { ExcursionsItemPage } from "./UnitPages/ExcursionItemPage";
+
+import { useParams } from "react-router-dom";
+import { ExhibitionItemPage } from "./UnitPages/ExhibitionItemPage";
+import { NewsItemPage } from "./UnitPages/NewsItemPage";
 
 function App() {
   const isAuth = useSelector((state) => state.user.isAuth);
-  const isAdmin = useSelector((state) => state.user.currentUser.role == 1);
+  const isAdmin = useSelector((state) => state.user.role === 1);
 
   function checkUserType() {
     if (!isAuth) {
@@ -25,12 +31,15 @@ function App() {
           <Route path="/" element={<MainLayout />}>
             <Route index element={<HomePage />} />
             <Route path="exhibitions" element={<ExhibitionsPage />} />
+            <Route path="exhibitions/:id" element={<ExhibitionItemPage />} />
             <Route path="excursions" element={<ExcursionsPage />} />
+            <Route path="excursion/:id" element={<ExcursionsItemPage />} />
             <Route path="registration" element={<RegisterPage />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="gallery" element={<GalleryPage />} />
             <Route path="about" element={<InfoPage />} />
             <Route path="news" element={<NewsPage />} />
+            <Route path="news/:id" element={<NewsItemPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
@@ -41,7 +50,9 @@ function App() {
           <Route path="/" element={<MainLayout />}>
             <Route index element={<HomePage />} />
             <Route path="exhibitions" element={<ExhibitionsPage />} />
+            <Route path="exhibitions/:id" element={<ExhibitionItemPage />} />
             <Route path="excursions" element={<ExcursionsPage />} />
+            <Route path="excursions/:id" element={<ExcursionsItemPage />} />
             <Route
               path="registration"
               element={<Navigate to="/gallery" replace={true} />}
@@ -50,9 +61,11 @@ function App() {
               path="login"
               element={<Navigate to="/gallery" replace={true} />}
             />
+            <Route path="reqposts" element={<RequestedPosts />} />
             <Route path="gallery" element={<GalleryPage />} />
             <Route path="about" element={<InfoPage />} />
             <Route path="news" element={<NewsPage />} />
+            <Route path="news/:id" element={<NewsItemPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

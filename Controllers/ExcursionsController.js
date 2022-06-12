@@ -1,3 +1,4 @@
+const Excursion = require("../Models/Excursion");
 const Excursions = require("../Models/Excursion");
 
 class ExcursionsController {
@@ -25,14 +26,6 @@ class ExcursionsController {
       }
     }
 
-    // if (req.query.sort) {
-    //   const sortByArr = req.query.sort.split(",");
-    //   const sortByStr = sortByArr.join("");
-    //   query = query.sort(sortByStr);
-    // } else {
-    //   query = query.sort("name");
-    // }
-
     const excs = await Excursions.find(parsedString);
 
     res.status(200).json({
@@ -44,6 +37,17 @@ class ExcursionsController {
   createExcursion = async (req, res, next) => {
     const { excursion } = req.body;
     const excs = await Excursions.create(excursion);
+
+    res.status(201).json({
+      success: true,
+      data: excs,
+    });
+  };
+
+  getExcursionById = async (req, res, next) => {
+		const { id } = req.body.id
+
+    const excs = await Excursion.findById(id);
 
     res.status(201).json({
       success: true,

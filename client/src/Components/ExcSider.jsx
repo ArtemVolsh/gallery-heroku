@@ -9,6 +9,10 @@ import {
   Typography,
   Checkbox,
   FormLabel,
+  Radio,
+  RadioGroup,
+  FormControl,
+  FormControlLabel,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import AddBoxIcon from "@mui/icons-material/AddBox";
@@ -20,6 +24,7 @@ import {
 } from "@mui/x-date-pickers";
 
 import { createExcursion } from "../apiRequests/apiRequests";
+import { pokeGlobal } from "../Reducers/pokeReducer";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -49,6 +54,7 @@ const ExcSider = () => {
     place: "",
     price: 0,
     status: false,
+    approvalStatus: 0,
   };
 
   const [isSearch, setSearch] = useState(false);
@@ -75,8 +81,13 @@ const ExcSider = () => {
     const { name, value } = e.target;
     setSearchExcursion({ ...searchExcursion, [name]: value });
   };
+
   const handleSearchStatus = (e) => {
     setSearchExcursion({ ...searchExcursion, status: e.target.checked });
+  };
+
+  const handleSearchApprovalStatus = (e) => {
+    setSearchExcursion({ ...searchExcursion, approvalStatus: e.target.value });
   };
 
   const formNavigationString = (post) => {
@@ -85,13 +96,16 @@ const ExcSider = () => {
     for (let [key, value] of Object.entries(post)) {
       let firstOrConsequent = navString.includes("?") ? "&&" : "?";
 
-      let customKeys = ["price", "status"];
+      let customKeys = ["price", "status", "approvalStatus"];
 
       if (key === "price" && value !== defaultSearchExcursion[`${key}`])
         navString += `${firstOrConsequent}${key}[lte]=${value}`;
 
       if (key === "status")
         navString += `${firstOrConsequent}${key}[eq]=${value ? 1 : 0}`;
+
+      if (key === "approvalStatus")
+        navString += `${firstOrConsequent}${key}[eq]=${value}`;
 
       if (value !== defaultSearchExcursion[key] && !customKeys.includes(key))
         navString += `${firstOrConsequent}${key}[regex]=${value}`;
@@ -206,10 +220,12 @@ const ExcSider = () => {
                     )}
                   />
                 </LocalizationProvider>
+
                 <Button
                   variant="contained"
                   onClick={() => {
                     createExcursion(excursion);
+                    dispatch(pokeGlobal());
                   }}
                   className="sider-flex-full"
                   sx={{
@@ -255,7 +271,12 @@ const ExcSider = () => {
                   className="sider-flex-full"
                   sx={{ background: "white" }}
                 ></TextField>
-                <Stack direction="row" spacing={1} alignItems="center">
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  alignItems="center"
+                  className="sider-flex-full"
+                >
                   <TextField
                     name="price"
                     value={searchExcursion.price}
@@ -277,7 +298,32 @@ const ExcSider = () => {
                     onChange={handleSearchStatus}
                   />
                 </Stack>
-
+                <Stack direction="row" className="sider-flex-full">
+                  <FormControl>
+                    <RadioGroup
+                      value={searchExcursion.approvalStatus}
+                      onChange={handleSearchApprovalStatus}
+                      row
+                      name="row-radio-buttons-group"
+                    >
+                      <FormControlLabel
+                        value={0}
+                        control={<Radio />}
+                        label="Pending"
+                      />
+                      <FormControlLabel
+                        value={1}
+                        control={<Radio />}
+                        label="Approved"
+                      />
+                      <FormControlLabel
+                        value={2}
+                        control={<Radio />}
+                        label="Rejected"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </Stack>
                 <Stack direction="row" spacing={1} className="sider-flex-full">
                   <Button
                     variant="contained"
