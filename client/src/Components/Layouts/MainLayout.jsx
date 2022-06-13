@@ -14,19 +14,13 @@ const MainLayout = () => {
   function renderSider(key) {
     switch (key) {
       case EXHIBITONS:
-        return (
-					<ExhSider />
-				)
+        return <ExhSider />;
 
       case EXCURSIONS:
-        return (
-					<ExcSider />
-				)
+        return <ExcSider />;
 
       case NEWS:
-        return (
-					<NewsSider />
-				)
+        return <NewsSider />;
 
       default:
         break;

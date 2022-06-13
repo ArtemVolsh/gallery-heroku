@@ -9,7 +9,7 @@ const router = express.Router();
 
 router
   .route("/news")
-  .get(authMiddleware, NewsController.getAllNews)
+  .get(NewsController.getAllNews)
   .post(NewsController.createNews);
 router
   .route("/exhibitions")

@@ -30,7 +30,7 @@ const NewsPage = () => {
 
         axios({
           method: "GET",
-          url: `https://gallery-heroku.herokuapp.com/api/news${query}`,
+          url: `https://gallery-heroku.herokuapp.com /api/news${query}`,
           cancelToken: new axios.CancelToken((c) => (cancel = c)),
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

@@ -7,7 +7,7 @@ export const registration = async ({ email, password, phoneNumber }) => {
   try {
     axios
       .post(
-        `https://gallery-heroku.herokuapp.com/api/registration`,
+        `https://gallery-heroku.herokuapp.com /api/registration`,
         {
           email,
           password,
@@ -39,7 +39,7 @@ export const login = ({ email, password }) => {
     try {
       axios
         .post(
-          `https://gallery-heroku.herokuapp.com/api/login`,
+          `https://gallery-heroku.herokuapp.com /api/login`,
           {
             email,
             password,
@@ -68,7 +68,7 @@ export const checkAuth = () => {
   return async (dispatch) => {
     try {
       axios
-        .get(`https://gallery-heroku.herokuapp.com/api/refresh`, {
+        .get(`https://gallery-heroku.herokuapp.com /api/refresh`, {
           withCredentials: true,
         })
         .then(({ data }) => {
@@ -82,7 +82,7 @@ export const checkAuth = () => {
 export const createExhibition = async (exhibition) => {
   try {
     axios
-      .post(`https://gallery-heroku.herokuapp.com/api/exhibitions`, {
+      .post(`https://gallery-heroku.herokuapp.com /api/exhibitions`, {
         exhibition,
       })
       .then((response) => {
@@ -115,7 +115,7 @@ export const createExhibition = async (exhibition) => {
 export const createExcursion = async (excursion) => {
   try {
     axios
-      .post(`https://gallery-heroku.herokuapp.com/api/excursions`, {
+      .post(`https://gallery-heroku.herokuapp.com /api/excursions`, {
         excursion,
       })
       .then((response) => {
@@ -137,7 +137,7 @@ export const updateApprovalNews = async (id, status) => {
   try {
     axios
       .patch(
-        "https://gallery-heroku.herokuapp.com/api/requestedPosts/news",
+        "https://gallery-heroku.herokuapp.com /api/requestedPosts/news",
         {
           id,
           status,
@@ -165,7 +165,7 @@ export const updateApprovalExcursions = async (id, status) => {
   try {
     axios
       .patch(
-        "https://gallery-heroku.herokuapp.com/api/requestedPosts/excursions",
+        "https://gallery-heroku.herokuapp.com /api/requestedPosts/excursions",
         {
           id,
           status,
@@ -194,7 +194,7 @@ export const updateApprovalExhibitions = async (id, status) => {
   try {
     axios
       .patch(
-        "https://gallery-heroku.herokuapp.com/api/requestedPosts/exhibitions",
+        "https://gallery-heroku.herokuapp.com /api/requestedPosts/exhibitions",
         {
           id,
           status,
@@ -222,7 +222,7 @@ export const updateApprovalExhibitions = async (id, status) => {
 export const createNews = async (news) => {
   try {
     axios
-      .post(`https://gallery-heroku.herokuapp.com/api/news`, {
+      .post(`https://gallery-heroku.herokuapp.com /api/news`, {
         news,
       })
       .then((response) => {

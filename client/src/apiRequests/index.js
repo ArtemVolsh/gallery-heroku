@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_URL = `https://gallery-heroku.herokuapp.com`;
+export const API_URL = `https://gallery-heroku.herokuapp.com `;
 
 const $api = axios.create({
   withCredentials: true,

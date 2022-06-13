@@ -28,7 +28,7 @@ export const ExhibitionItemPage = () => {
       let query;
       axios({
         method: "POST",
-        url: `https://gallery-heroku.herokuapp.com/api/exhibitions/${params}`,
+        url: `https://gallery-heroku.herokuapp.com /api/exhibitions/${params}`,
         withCredentials: true,
         data: {
           id: params,

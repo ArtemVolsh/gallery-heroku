@@ -28,7 +28,7 @@ export const NewsItemPage = () => {
       let query;
       axios({
         method: "POST",
-        url: `https://gallery-heroku.herokuapp.com/api/news/${params}`,
+        url: `https://gallery-heroku.herokuapp.com /api/news/${params}`,
         withCredentials: true,
         data: {
           id: params,

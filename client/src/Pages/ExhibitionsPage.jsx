@@ -40,7 +40,7 @@ const ExhibitionsPage = () => {
 
         axios({
           method: "GET",
-          url: `https://gallery-heroku.herokuapp.com/api/exhibitions${query}`,
+          url: `https://gallery-heroku.herokuapp.com /api/exhibitions${query}`,
           withCredentials: true,
           cancelToken: new axios.CancelToken((c) => (cancel = c)),
         })

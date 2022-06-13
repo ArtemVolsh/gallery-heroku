@@ -87,7 +87,7 @@ export const RequestedPosts = () => {
   const updateNews = async (query) => {
     return new axios({
       method: "GET",
-      url: `https://gallery-heroku.herokuapp.com/api/news${query}`,
+      url: `https://gallery-heroku.herokuapp.com /api/news${query}`,
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -110,7 +110,7 @@ export const RequestedPosts = () => {
   const updateExcursions = async (query) => {
     return new axios({
       method: "GET",
-      url: `https://gallery-heroku.herokuapp.com/api/excursions${query}`,
+      url: `https://gallery-heroku.herokuapp.com /api/excursions${query}`,
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -133,7 +133,7 @@ export const RequestedPosts = () => {
   const updateExhibitions = async (query) => {
     return new axios({
       method: "GET",
-      url: `https://gallery-heroku.herokuapp.com/api/exhibitions${query}`,
+      url: `https://gallery-heroku.herokuapp.com /api/exhibitions${query}`,
       withCredentials: true,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,

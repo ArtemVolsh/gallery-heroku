@@ -131,9 +131,9 @@ const ExhSider = () => {
     console.log(formNavigationString(searchExhibition));
   }, [searchExhibition]);
 
-  function renderSider() {
-    if (isAuth) {
-      return (
+  return (
+    <>
+      {isAuth ? (
         <div className="sider-wrapper">
           <div className="sider-search-wrapper">
             <Stack direction="row" spacing={2} alignItems="center">
@@ -359,11 +359,126 @@ const ExhSider = () => {
             </Box>
           )}
         </div>
-      );
-    }
-  }
+      ) : (
+        <div className="sider-wrapper">
+          <Box component="form">
+            <div className="sider-flex">
+              <TextField
+                name="name"
+                value={searchExhibition.name}
+                onInput={handleSearchInput}
+                variant="filled"
+                label="Exhibition name"
+                placeholder="Enter exhibition name..."
+                className="sider-flex-full"
+                sx={{ background: "white" }}
+              ></TextField>
+              <TextField
+                name="content"
+                value={searchExhibition.content}
+                onInput={handleSearchInput}
+                variant="filled"
+                label="Exhibition content"
+                placeholder="Enter exhibition content..."
+                className="sider-flex-full"
+                sx={{ background: "white" }}
+              ></TextField>
+              <TextField
+                name="place"
+                value={searchExhibition.place}
+                onInput={handleSearchInput}
+                variant="filled"
+                label="Exhibition place"
+                placeholder="Enter exhibition place..."
+                className="sider-flex-full"
+                sx={{ background: "white" }}
+              ></TextField>
+              <Stack direction="row" spacing={1} alignItems="center">
+                <TextField
+                  name="price"
+                  value={searchExhibition.price}
+                  onInput={handleSearchInput}
+                  variant="filled"
+                  type="number"
+                  label="Price under"
+                  className="sider-flex-full"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">₴</InputAdornment>
+                    ),
+                  }}
+                  sx={{ background: "white" }}
+                ></TextField>
+                <FormLabel sx={{ color: "white" }}>Active</FormLabel>
+                <Checkbox
+                  checked={searchExhibition.status}
+                  onChange={handleSearchStatus}
+                />
+              </Stack>
 
-  return renderSider();
+              <Stack direction="row" className="sider-flex-full">
+                <FormControl>
+                  <RadioGroup
+                    value={searchExhibition.approvalStatus}
+                    onChange={handleSearchApprovalStatus}
+                    row
+                    name="row-radio-buttons-group"
+                  >
+                    <FormControlLabel
+                      value={0}
+                      control={<Radio />}
+                      label="Pending"
+                    />
+                    <FormControlLabel
+                      value={1}
+                      control={<Radio />}
+                      label="Approved"
+                    />
+                    <FormControlLabel
+                      value={2}
+                      control={<Radio />}
+                      label="Rejected"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </Stack>
+
+              <Stack direction="row" spacing={1} className="sider-flex-full">
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    filter(searchExhibition);
+                  }}
+                  className="sider-flex-full"
+                  sx={{
+                    backgroundColor: "white",
+                    color: "black",
+                    ":hover": { backgroundColor: "gold" },
+                  }}
+                >
+                  Search
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setSearchExhibition(defaultSearchExhibition);
+                    navigate("/exhibitions");
+                  }}
+                  sx={{
+                    backgroundColor: "white",
+                    color: "black",
+                    ":hover": { backgroundColor: "tomato" },
+                  }}
+                >
+                  <ClearIcon />
+                </Button>
+              </Stack>
+            </div>
+          </Box>
+        </div>
+      )}
+    </>
+  );
 };
 
 export { ExhSider };

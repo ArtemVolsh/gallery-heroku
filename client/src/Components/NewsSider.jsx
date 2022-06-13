@@ -113,9 +113,9 @@ const NewsSider = () => {
     console.log(formNavigationString(searchNews));
   }, [searchNews]);
 
-  function renderSider() {
-    if (isAuth) {
-      return (
+  return (
+    <>
+      {isAuth ? (
         <div className="sider-wrapper">
           <div className="sider-search-wrapper">
             <Stack direction="row" spacing={2} alignItems="center">
@@ -276,11 +276,92 @@ const NewsSider = () => {
             </Box>
           )}
         </div>
-      );
-    }
-  }
+      ) : (
+        <div className="sider-wrapper">
+          <Box component="form">
+            <div className="sider-flex">
+              <TextField
+                name="name"
+                value={searchNews.name}
+                onInput={handleSearchInput}
+                variant="filled"
+                label="News name"
+                placeholder="Enter news name..."
+                className="sider-flex-full"
+                sx={{ background: "white" }}
+              ></TextField>
+              <TextField
+                name="content"
+                value={searchNews.content}
+                onInput={handleSearchInput}
+                variant="filled"
+                label="News content"
+                placeholder="Enter news content..."
+                className="sider-flex-full"
+                sx={{ background: "white" }}
+              ></TextField>
 
-  return renderSider();
+              <FormControl>
+                <RadioGroup
+                  value={searchNews.approvalStatus}
+                  onChange={handleSearchStatus}
+                  row
+                  name="row-radio-buttons-group"
+                >
+                  <FormControlLabel
+                    value={0}
+                    control={<Radio />}
+                    label="Pending"
+                  />
+                  <FormControlLabel
+                    value={1}
+                    control={<Radio />}
+                    label="Approved"
+                  />
+                  <FormControlLabel
+                    value={2}
+                    control={<Radio />}
+                    label="Rejected"
+                  />
+                </RadioGroup>
+              </FormControl>
+
+              <Stack direction="row" spacing={1} className="sider-flex-full">
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    filter(searchNews);
+                  }}
+                  className="sider-flex-full"
+                  sx={{
+                    backgroundColor: "white",
+                    color: "black",
+                    ":hover": { backgroundColor: "gold" },
+                  }}
+                >
+                  Search
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setSearchNews(defaultSearchNews);
+                    navigate("/news");
+                  }}
+                  sx={{
+                    backgroundColor: "white",
+                    color: "black",
+                    ":hover": { backgroundColor: "tomato" },
+                  }}
+                >
+                  <ClearIcon />
+                </Button>
+              </Stack>
+            </div>
+          </Box>
+        </div>
+      )}
+    </>
+  );
 };
 
 export { NewsSider };

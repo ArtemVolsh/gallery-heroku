@@ -126,9 +126,10 @@ const ExcSider = () => {
     console.log(formNavigationString(searchExcursion));
   }, [searchExcursion]);
 
-  function renderSider() {
-    if (isAuth) {
-      return (
+  return (
+    <>
+      {" "}
+      {isAuth ? (
         <div className="sider-wrapper">
           <div className="sider-search-wrapper">
             <Stack direction="row" spacing={2} alignItems="center">
@@ -358,11 +359,129 @@ const ExcSider = () => {
             </Box>
           )}
         </div>
-      );
-    }
-  }
-
-  return renderSider();
+      ) : (
+        <div className="sider-wrapper">
+          <Box component="form">
+            <div className="sider-flex">
+              <TextField
+                name="name"
+                value={searchExcursion.name}
+                onInput={handleSearchInput}
+                variant="filled"
+                label="Excursion name"
+                placeholder="Enter excursion name..."
+                className="sider-flex-full"
+                sx={{ background: "white" }}
+              ></TextField>
+              <TextField
+                name="content"
+                value={searchExcursion.content}
+                onInput={handleSearchInput}
+                variant="filled"
+                label="Excursion content"
+                placeholder="Enter excursion content..."
+                className="sider-flex-full"
+                sx={{ background: "white" }}
+              ></TextField>
+              <TextField
+                name="place"
+                value={searchExcursion.place}
+                onInput={handleSearchInput}
+                variant="filled"
+                label="Excursion place"
+                placeholder="Enter excursion place..."
+                className="sider-flex-full"
+                sx={{ background: "white" }}
+              ></TextField>
+              <Stack
+                direction="row"
+                spacing={1}
+                alignItems="center"
+                className="sider-flex-full"
+              >
+                <TextField
+                  name="price"
+                  value={searchExcursion.price}
+                  onInput={handleSearchInput}
+                  variant="filled"
+                  type="number"
+                  label="Price under"
+                  className="sider-flex-full"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">₴</InputAdornment>
+                    ),
+                  }}
+                  sx={{ background: "white" }}
+                ></TextField>
+                <FormLabel sx={{ color: "white" }}>Active</FormLabel>
+                <Checkbox
+                  checked={searchExcursion.status}
+                  onChange={handleSearchStatus}
+                />
+              </Stack>
+              <Stack direction="row" className="sider-flex-full">
+                <FormControl>
+                  <RadioGroup
+                    value={searchExcursion.approvalStatus}
+                    onChange={handleSearchApprovalStatus}
+                    row
+                    name="row-radio-buttons-group"
+                  >
+                    <FormControlLabel
+                      value={0}
+                      control={<Radio />}
+                      label="Pending"
+                    />
+                    <FormControlLabel
+                      value={1}
+                      control={<Radio />}
+                      label="Approved"
+                    />
+                    <FormControlLabel
+                      value={2}
+                      control={<Radio />}
+                      label="Rejected"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </Stack>
+              <Stack direction="row" spacing={1} className="sider-flex-full">
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    filter(searchExcursion);
+                  }}
+                  className="sider-flex-full"
+                  sx={{
+                    backgroundColor: "white",
+                    color: "black",
+                    ":hover": { backgroundColor: "gold" },
+                  }}
+                >
+                  Search
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setSearchExcursion(defaultSearchExcursion);
+                    navigate("/excursions");
+                  }}
+                  sx={{
+                    backgroundColor: "white",
+                    color: "black",
+                    ":hover": { backgroundColor: "tomato" },
+                  }}
+                >
+                  <ClearIcon />
+                </Button>
+              </Stack>
+            </div>
+          </Box>
+        </div>
+      )}
+    </>
+  );
 };
 
 export { ExcSider };

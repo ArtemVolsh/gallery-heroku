@@ -3,7 +3,7 @@ import axios from "axios";
 export const getUserById = async (id) => {
   try {
     const response = await axios.post(
-      `https://gallery-heroku.herokuapp.com/api/users`,
+      `https://gallery-heroku.herokuapp.com /api/users`,
       {
         id,
       }
